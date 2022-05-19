@@ -5,6 +5,8 @@ export const UserInfoContext = createContext();
 export const UserInfoContextProvider = (props) => {
   const [LoginNameContext, setLoginNameContext] = useState("none");
   const [LoginPasswordContext, setLoginPasswordContext] = useState("none");
+  const [dream, setDream] = useState("this is a dreamstate");
+  const [user, setUser] = useState(false);
 
   console.log(LoginNameContext, LoginPasswordContext);
 
@@ -27,7 +29,15 @@ export const UserInfoContextProvider = (props) => {
 
   return (
     <UserInfoContext.Provider
-      value={{ setLoginPasswordContext, setLoginNameContext, FetchingLogin }}
+      value={{
+        setLoginPasswordContext,
+        setLoginNameContext,
+        FetchingLogin,
+        dream,
+        setDream,
+        user,
+        setUser,
+      }}
     >
       {props.children}
     </UserInfoContext.Provider>

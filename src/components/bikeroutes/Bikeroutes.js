@@ -1,11 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { UserInfoContext } from "../ContextProvider/UserInfoContext";
 
 import Maps from "../google maps/maps";
 
 const BikeRoutes = () => {
+  const { user } = useContext(UserInfoContext);
+
+  console.log(user);
+
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const [name, setName] = useState();
@@ -15,8 +20,8 @@ const BikeRoutes = () => {
     setLatitude(e.target.value);
   };
 
-  const longitudeHandler = (e) => {
-    setLongitude(e.target.value);
+  const longitudeHandler = (event) => {
+    setLongitude(event.target.value);
   };
 
   const nameHandler = (e) => {

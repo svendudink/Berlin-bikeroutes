@@ -4,7 +4,7 @@ import { UserInfoContext } from "../ContextProvider/UserInfoContext.js";
 
 import "./SignUpPage.css";
 
-function SignUp() {
+function Login() {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -12,7 +12,7 @@ function SignUp() {
   const [loginUserName, setLoginUserName] = useState();
 
   //Context provider
-  const { FetchingLogin } = useContext(UserInfoContext);
+
   //const setLoginPasswordContext = useContext(UserInfoContext);
 
   const loginPasswordHandler = (e) => {
@@ -24,25 +24,39 @@ function SignUp() {
   };
 
   const submitHandler = (val) => {
-    FetchingLogin(loginUserName, loginPassword);
     //setLoginNameContext(loginUserName);
     // setLoginPasswordContext(loginPassword);
     // setLoginNameContext("it doesnt need to be a function");
-
     // function login from context
+
+    fetch("http://localhost:8080/login", {
+      method: "POST",
+
+      body: JSON.stringify({
+        user: loginUserName,
+        password: loginPassword,
+      }),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((resData) => checkRes(resData))
+      .catch((err) => console.log(err));
+    // end of send to server
+
+    console.log("check the input");
   };
 
-  // User Login info
-  const database = [
-    {
-      username: "user1",
-      password: "pass1",
-    },
-    {
-      username: "user2",
-      password: "pass2",
-    },
-  ];
+  const checkRes = (resData) => {
+    console.log(resData);
+    setErrorMessages({});
+    if (resData.msg === "user not found")
+      setErrorMessages({ name: "uname", message: errors.uname });
+    if (resData.msg === "wrong password")
+      setErrorMessages({ name: "pass", message: errors.pass });
+    if (resData.token) {
+      localStorage.setItem("token", resData.token);
+    }
+  };
 
   const errors = {
     uname: "invalid username",
@@ -52,24 +66,6 @@ function SignUp() {
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
-
-    var { uname, pass } = document.forms[0];
-
-    // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
-
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-      }
-    } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
-    }
   };
 
   // Generate JSX code for error message
@@ -119,4 +115,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;

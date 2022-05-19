@@ -7,9 +7,29 @@ import MainPage from "./components/mainPage/MainPage";
 import SignUp from "./components/SignUpPage/SignUpPage";
 import Login from "./components/SignUpPage/LoginPage";
 import { UserInfoContextProvider } from "./components/ContextProvider/UserInfoContext";
+import { UserInfoContext } from "./components/ContextProvider/UserInfoContext";
 import { NavBarContextProvider } from "./components/ContextProvider/NavBarContext";
+import { getToken } from "./utils/getToken.js";
+import { useState } from "react";
+import { useEffect, useContext } from "react";
 
 function App() {
+  const [user, setUser] = useState(false);
+
+  const checkIfUserIsLoggedIn = () => {
+    const token = getToken();
+    if (token) {
+      console.log("logged in");
+      setUser(true);
+    } else {
+      console.log("not logged");
+      setUser(false);
+    }
+  };
+  useEffect(() => {
+    checkIfUserIsLoggedIn();
+  }, [user]);
+
   return (
     <NavBarContextProvider>
       <UserInfoContextProvider>
