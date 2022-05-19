@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { Wrapper } from "@googlemaps/react-wrapper";
 import { UserInfoContext } from "../ContextProvider/UserInfoContext";
 
 import Maps from "../google maps/maps";
