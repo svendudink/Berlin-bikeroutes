@@ -1,5 +1,11 @@
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  KmlLayer,
+} from "@react-google-maps/api";
 import "./maps.css";
+import sharedRoute from "./sharedroute.kml";
 
 export default function Home() {
   const { isLoaded } = useLoadScript({
@@ -15,6 +21,11 @@ function Map() {
       zoom={10}
       center={{ lat: 44, lng: -80 }}
       mapContainerClassName="map-container"
-    ></GoogleMap>
+    >
+      <KmlLayer
+        url="http://localhost:8080/tmp/my-uploads/sharedroute.kml'"
+        options={{ preserveViewport: false }}
+      />
+    </GoogleMap>
   );
 }

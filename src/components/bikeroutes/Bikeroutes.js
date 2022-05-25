@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Wrapper } from "@googlemaps/react-wrapper";
 import { UserInfoContext } from "../ContextProvider/UserInfoContext";
+import SingleMap from "../singlemap/SingleMap";
 
-import Maps from "../google maps/maps";
+// import { Wrapper } from "@googlemaps/react-wrapper";
+// import Maps from "../google maps/maps";
 
 const BikeRoutes = () => {
   const { user } = useContext(UserInfoContext);
@@ -15,6 +16,7 @@ const BikeRoutes = () => {
   const [longitude, setLongitude] = useState();
   const [name, setName] = useState();
   const [dificulty, setDificulty] = useState();
+  const [selectedFile, setSelectedFile] = useState();
 
   const LatitudeHandler = (e) => {
     setLatitude(e.target.value);
@@ -32,18 +34,19 @@ const BikeRoutes = () => {
     setDificulty(e.target.value);
   };
 
-  const clickHandler = () => {
+  const clickHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", selectedFile, selectedFile.name);
+    formData.append("difficulty", dificulty);
+    formData.append("name", name);
+    formData.append("longitude", longitude);
+    formData.append("latitude", latitude);
     console.log(dificulty, name, longitude, latitude);
     fetch("http://localhost:8080/routes/routes/", {
       method: "POST",
 
-      body: JSON.stringify({
-        dificulty: dificulty,
-        name: name,
-        latitude: latitude,
-        longitude: longitude,
-      }),
-      headers: { "Content-type": "application/json" },
+      body: formData,
     })
       .then((res) => res.json())
       .then((resData) => console.log(resData))
@@ -102,12 +105,19 @@ const BikeRoutes = () => {
           />
         </div>
       </Box>
-      <Wrapper
-        apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-        render={render}
-      >
-        <Maps />
-      </Wrapper>
+      <div className="mb-1">
+        Upload your map file <span className="font-css top">*</span>
+        <div className="">
+          <input
+            type="file"
+            id="file-input"
+            name="ImageStyle"
+            encType="multipart/form-data"
+            onChange={(e) => setSelectedFile(e.target.files[0])}
+          />
+        </div>
+      </div>
+      <SingleMap />
     </div>
   );
 };

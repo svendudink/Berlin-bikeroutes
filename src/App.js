@@ -6,6 +6,7 @@ import routes from "./components/bikeroutes/Bikeroutes";
 import MainPage from "./components/mainPage/MainPage";
 import SignUp from "./components/SignUpPage/SignUpPage";
 import Login from "./components/SignUpPage/LoginPage";
+import Profile from "./components/Profile/Profile";
 import { UserInfoContextProvider } from "./components/ContextProvider/UserInfoContext";
 import { UserInfoContext } from "./components/ContextProvider/UserInfoContext";
 import { NavBarContextProvider } from "./components/ContextProvider/NavBarContext";
@@ -40,6 +41,7 @@ function App() {
             <Route path="/routes" element={<BikeRoutes />} component={routes} />
             <Route path="/signup" element={<SignUp />} component={routes} />
             <Route path="/Login" element={<Login />} component={routes} />
+            <Route path="/Profile" element={<Profile />} component={routes} />
           </Routes>
         </BrowserRouter>
       </UserInfoContextProvider>
