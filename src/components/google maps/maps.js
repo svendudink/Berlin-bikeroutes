@@ -1,4 +1,6 @@
 import {
+  withScriptjs,
+  withGoogleMap,
   GoogleMap,
   useLoadScript,
   Marker,
@@ -6,6 +8,16 @@ import {
 } from "@react-google-maps/api";
 import "./maps.css";
 import sharedRoute from "./sharedroute.kml";
+
+const mapContainerStyle = {
+  height: "400px",
+  width: "800px",
+};
+
+const center = {
+  lat: 41.876,
+  lng: -87.624,
+};
 
 export default function Home() {
   const { isLoaded } = useLoadScript({
@@ -18,12 +30,13 @@ export default function Home() {
 function Map() {
   return (
     <GoogleMap
-      zoom={10}
-      center={{ lat: 44, lng: -80 }}
-      mapContainerClassName="map-container"
+      id="kml-layer-example"
+      mapContainerStyle={mapContainerStyle}
+      zoom={11}
+      center={center}
     >
       <KmlLayer
-        url="http://localhost:8080/tmp/my-uploads/sharedroute.kml'"
+        url="https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml"
         options={{ preserveViewport: false }}
       />
     </GoogleMap>
